@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baker Trader ERP - Master Test Plan (TP-BTERP-LOGIN-001)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --primary-navy: #0F172A;
+      --primary-blue: #1E40AF;
+      --accent-blue: #2563EB;
+      --light-blue-bg: #EFF6FF;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --border-color: #CBD5E1;
+      --border-subtle: #E2E8F0;
+      --bg-surface: #FFFFFF;
+      --bg-alt: #F8FAFC;
+      --badge-green-bg: #DCFCE7;
+      --badge-green-text: #166534;
+      --badge-blue-bg: #DBEAFE;
+      --badge-blue-text: #1E40AF;
+      --badge-amber-bg: #FEF3C7;
+      --badge-amber-text: #92400E;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text-main);
+      background-color: #F1F5F9;
+      line-height: 1.45;
+      font-size: 11px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .document-container {
+      max-width: 210mm;
+      margin: 20px auto;
+      background: var(--bg-surface);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .doc-page {
+      padding: 22mm 20mm;
+      min-height: 297mm;
+      position: relative;
+      background: #FFFFFF;
+      display: flex;
+      flex-col: column;
+      box-sizing: border-box;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--primary-navy);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .page-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-header .brand-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary-navy);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    .page-header .doc-ref {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .page-footer {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary-navy);
+      line-height: 1.2;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-blue);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-navy);
+      border-left: 3px solid var(--accent-blue);
+      padding-left: 8px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    h3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: var(--text-main);
+      text-align: justify;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .meta-val {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary-navy);
+    }
+
+    .code-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      background: #E2E8F0;
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: #0F172A;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      font-size: 10px;
+    }
+
+    th {
+      background-color: var(--primary-navy);
+      color: #FFFFFF;
+      font-weight: 600;
+      text-align: left;
+      padding: 6px 8px;
+      font-size: 9.5px;
+      letter-spacing: 0.02em;
+    }
+
+    td {
+      padding: 5px 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #F8FAFC;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-p1 {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .badge-p2 {
+      background: var(--badge-amber-bg);
+      color: var(--badge-amber-text);
+    }
+
+    .badge-p3 {
+      background: #E0E7FF;
+      color: #3730A3;
+    }
+
+    .badge-inscope {
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
+    }
+
+    .badge-outofscope {
+      background: #F1F5F9;
+      color: #64748B;
+    }
+
+    .badge-status {
+      background: var(--badge-blue-bg);
+      color: var(--badge-blue-text);
+    }
+
+    .callout {
+      background: var(--light-blue-bg);
+      border-left: 3px solid var(--accent-blue);
+      padding: 8px 12px;
+      border-radius: 0 4px 4px 0;
+      margin: 10px 0;
+      font-size: 10px;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 2px;
+    }
+
+    ul, ol {
+      margin-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    .signature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .sig-box {
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+      background: var(--bg-alt);
+    }
+
+    .sig-role {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--primary-navy);
+      margin-bottom: 4px;
+    }
+
+    .sig-line {
+      margin-top: 24px;
+      border-bottom: 1px dashed var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5px;
+      color: var(--text-muted);
+      padding-bottom: 2px;
+    }
+
+    @media print {
+      body {
+        background-color: #FFFFFF;
+      }
+      .document-container {
+        margin: 0;
+        box-shadow: none;
+        max-width: 100%;
+      }
+      .doc-page {
+        min-height: 297mm;
+        height: 297mm;
+        padding: 16mm 14mm 14mm 14mm;
+        page-break-after: always;
+        break-after: page;
+      }
+      .page-break {
+        page-break-after: always;
+        break-after: page;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- ================= PAGE 1 ================= -->
+  <div class="doc-page">
+    <div class="page-header">
+      <div class="brand">
+        <span class="brand-title">Baker Trader ERP — Quality Assurance</span>
+      </div>
+      <div class="doc-ref">DOC ID: TP-BTERP-LOGIN-001 | v1.0.0</div>
+    </div>
+
+    <h1>MASTER TEST PLAN: AUTHENTICATION MODULE</h1>
+    <div class="subtitle">End-to-End Test Plan for Role-Based Access Control & Staff Login</div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Application Under Test</span>
+        <span class="meta-val">Baker Trader ERP (B2B Perishables Distribution)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Target URL & Module</span>
+        <span class="meta-val">https://admin-web-production-7006.up.railway.app/login</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Author / Persona</span>
+        <span class="meta-val">Senior Test Engineer (15 yrs BFSI, Healthcare, ERP)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Execution Status</span>
+        <span class="meta-val"><span class="badge badge-status">Generated & Planned — Execution Not Run</span></span>
+      </div>
+    </div>
+
+    <h2>1. Test Plan ID and Title</h2>
+    <p>
+      <strong>Identifier:</strong> <span class="code-pill">TP-BTERP-LOGIN-001</span><br>
+      <strong>Title:</strong> Comprehensive Test Plan for Baker Trader ERP Authentication & Authorization Module.<br>
+      <strong>Scope Classification:</strong> Level 3 Enterprise Test Plan complying with IEEE 829-2008 standards.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Release Date</th>
+          <th>Author / Role</th>
+          <th>Summary of Changes</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="code-pill">1.0.0</span></td>
+          <td>2026-10-15</td>
+          <td>Senior Test Engineer</td>
+          <td>Complete 12-section test plan instantiated from RICE-POT prompt parameters.</td>
+          <td><span class="badge badge-inscope">Baseline Proposed</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Objective and References</h2>
+    <h3>2.1 Core Quality Objectives</h3>
+    <ul>
+      <li><strong>Authentication Robustness:</strong> Validate that only authorized personnel with verified credentials and roles can access the Baker Trader ERP admin suite, protecting inventory ledgers, delivery notes, and customer records.</li>
+      <li><strong>Defect Prevention & Edge Handling:</strong> Enforce zero unhandled exceptions upon malformed inputs, special characters, whitespace, or SQL/script injections.</li>
+      <li><strong>Deterministic Automation:</strong> Establish a TypeScript + Playwright test harness featuring Page Object Models (POM) for reproducible CI/CD regressions.</li>
+      <li><strong>Compliance & Auditability:</strong> Provide complete requirement-to-test traceability with clear separation between confirmed application behavior, synthetic test assumptions, and open questions.</li>
+    </ul>
+
+    <h3>2.2 Governing References</h3>
+    <ul>
+      <li><strong>Prompt Contract:</strong> <span class="code-pill">01_RICE_POT_Prompt.md</span> (RICE-POT QA Framework).</li>
+      <li><strong>Target URL:</strong> <code>https://admin-web-production-7006.up.railway.app/login</code>.</li>
+      <li><strong>Standards Compliance:</strong> ISO/IEC/IEEE 29119-3 (Test Documentation) and OWASP ASVS v4.0.3 (Authentication).</li>
+    </ul>
+
+    <div class="callout">
+      <div class="callout-title">Confirmed DOM Fact</div>
+      Application is an SPA rendered via React and Vite. Form container carries <code>data-testid="login-page"</code>, featuring distinct input IDs <code>#login-email</code>, <code>#login-password</code>, and an alert element <code>#login-root-error</code>.
+    </div>
+
+    <div class="page-footer">
+      <span>Baker Trader ERP Quality Assurance</span>
+      <span>Confidential & Proprietary</span>
+      <span>Page 1 of 5</span>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= PAGE 2 ================= -->
+  <div class="doc-page">
+    <div class="page-header">
+      <div class="brand"><span class="brand-title">Baker Trader ERP — Quality Assurance</span></div>
+      <div class="doc-ref">DOC ID: TP-BTERP-LOGIN-001 | v1.0.0</div>
+    </div>
+
+    <h2>3. In Scope and Out of Scope</h2>
+    <h3>3.1 In-Scope Test Items (Phase 1 Playwright TS Automation)</h3>
+    <ul>
+      <li><strong>Page Load & Metadata (REQ-LOGIN-001):</strong> HTTP 200 verification, page title assertion (<code>Baker Trader ERP</code>), favicon, and layout container loading.</li>
+      <li><strong>Valid Authentication (REQ-LOGIN-002):</strong> Successful login with valid admin credentials, receipt of JWT bearer token, and deterministic navigation to the staff dashboard (<code>/</code>).</li>
+      <li><strong>Invalid Credentials Handling (REQ-LOGIN-003):</strong> Rejection of incorrect email/password combinations with user-friendly alert message (<code>Email or password is incorrect.</code>).</li>
+      <li><strong>Empty Credentials Validation (REQ-LOGIN-004):</strong> Client-side form submission prevention when email or password is left blank.</li>
+      <li><strong>Special Characters & Boundary Inputs (REQ-LOGIN-005):</strong> Input tolerance for unicode, accents, quotes, and SQL injection syntax fragments.</li>
+      <li><strong>Role-Based Access Control (REQ-LOGIN-006):</strong> Verification of privileged access rights for admin role versus standard employee restrictions.</li>
+      <li><strong>Cross-Browser Compatibility (REQ-LOGIN-007):</strong> Headless and headed test execution across Chromium, Firefox, and WebKit desktop browser engines.</li>
+    </ul>
+
+    <h3>3.2 Out-of-Scope Items (Deferred to Phase 2)</h3>
+    <ul>
+      <li><strong>Native Mobile Applications (REQ-LOGIN-008):</strong> Dedicated native iOS/Android binary builds (testing restricted to responsive web app).</li>
+      <li><strong>Physical Hardware Lab Matrix (REQ-LOGIN-009):</strong> Testing on physical mobile hardware devices.</li>
+      <li><strong>Non-Desktop Screen Resolutions (REQ-LOGIN-010):</strong> Viewports below 360px and 4K ultra-wide monitors.</li>
+      <li><strong>Backend Penetration Testing:</strong> Volumetric DDoS attacks and direct database stress testing without authorization.</li>
+    </ul>
+
+    <h2>4. Requirements and Planned Coverage</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Requirement ID</th>
+          <th>Requirement Description</th>
+          <th>Planned Test Scenarios</th>
+          <th>Pri</th>
+          <th>Scope</th>
+          <th>Coverage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-001</span></td>
+          <td>Login page load, title, and URL integrity</td>
+          <td>HTTP 200, title assertion, favicon, DOM elements presence</td>
+          <td><span class="badge badge-p1">P1</span></td>
+          <td><span class="badge badge-inscope">In Scope</span></td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-002</span></td>
+          <td>Login with valid credentials</td>
+          <td>Valid admin authentication, JWT storage, redirect to dashboard</td>
+          <td><span class="badge badge-p1">P1</span></td>
+          <td><span class="badge badge-inscope">In Scope</span></td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-003</span></td>
+          <td>Login with invalid credentials</td>
+          <td>Non-existent email, wrong password, error alert display</td>
+          <td><span class="badge badge-p1">P1</span></td>
+          <td><span class="badge badge-inscope">In Scope</span></td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-004</span></td>
+          <td>Validation on empty credentials</td>
+          <td>Blank email/password, whitespace strings, submission blocked</td>
+          <td><span class="badge badge-p2">P2</span></td>
+          <td><span class="badge badge-inscope">In Scope</span></td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-005</span></td>
+          <td>Special characters in credentials</td>
+          <td>SQLi strings, script tags, quotes, extended unicode tolerance</td>
+          <td><span class="badge badge-p2">P2</span></td>
+          <td><span class="badge badge-inscope">In Scope</span></td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-006</span></td>
+          <td>Login with different user roles</td>
+          <td>Admin privileges vs standard operator role access boundaries</td>
+          <td><span class="badge badge-p2">P2</span></td>
+          <td><span class="badge badge-inscope">In Scope</span></td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-007</span></td>
+          <td>Multi-browser execution</td>
+          <td>Playwright matrix across Chromium, Firefox, and WebKit</td>
+          <td><span class="badge badge-p2">P2</span></td>
+          <td><span class="badge badge-inscope">In Scope</span></td>
+          <td>100%</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-008</span></td>
+          <td>Different operating systems</td>
+          <td>Cross-OS testing (Windows/Linux/macOS)</td>
+          <td><span class="badge badge-p3">P3</span></td>
+          <td><span class="badge badge-outofscope">Phase 2</span></td>
+          <td>Deferred</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-009</span></td>
+          <td>Different physical devices</td>
+          <td>Physical smartphone and tablet lab testing</td>
+          <td><span class="badge badge-p3">P3</span></td>
+          <td><span class="badge badge-outofscope">Phase 2</span></td>
+          <td>Deferred</td>
+        </tr>
+        <tr>
+          <td><span class="code-pill">REQ-LOGIN-010</span></td>
+          <td>Different screen resolutions</td>
+          <td>Viewport testing below 360px and multi-monitor setups</td>
+          <td><span class="badge badge-p3">P3</span></td>
+          <td><span class="badge badge-outofscope">Phase 2</span></td>
+          <td>Deferred</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-footer">
+      <span>Baker Trader ERP Quality Assurance</span>
+      <span>Confidential & Proprietary</span>
+      <span>Page 2 of 5</span>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= PAGE 3 ================= -->
+  <div class="doc-page">
+    <div class="page-header">
+      <div class="brand"><span class="brand-title">Baker Trader ERP — Quality Assurance</span></div>
+      <div class="doc-ref">DOC ID: TP-BTERP-LOGIN-001 | v1.0.0</div>
+    </div>
+
+    <h2>5. Test Approach, Levels, and Types</h2>
+    <h3>5.1 Multi-Tier Test Architecture</h3>
+    <p>Testing follows a risk-based pyramid utilizing Playwright with TypeScript to provide deterministic E2E assertions.</p>
+    <ul>
+      <li><strong>Component & Contract Level:</strong> Validate <code>react-hook-form</code> schema triggers on blur, and verify API responses from <code>/api/auth/login</code> (HTTP 200, 401, 403, 429).</li>
+      <li><strong>End-to-End System Level:</strong> Implement Page Object Model (POM) architecture isolating page locators and interaction flows from assertion logic.</li>
+      <li><strong>Regression Level:</strong> Maintain a fast, headless test suite executed on pull requests to prevent regressions in core authentication flows.</li>
+    </ul>
+
+    <h3>5.2 Test Types</h3>
+    <ul>
+      <li><strong>Functional Testing:</strong> Form submission, validation messaging, credential verification, and state navigation.</li>
+      <li><strong>Security Testing:</strong> Verify password masking, show/hide toggle behavior, and absence of credential logging in browser console/network logs.</li>
+      <li><strong>Two-Factor Authentication (TOTP) Workflow:</strong> Handle <code>totp_required</code> response payloads and transition to the 6-digit verification code input.</li>
+      <li><strong>Cross-Browser Compatibility:</strong> Parallel execution across Chromium, Firefox, and WebKit desktop browser engines.</li>
+    </ul>
+
+    <h2>6. Environment, Tools, Access, and Test Data</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Tool / Specification</th>
+          <th>Configuration Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Test Environment</strong></td>
+          <td>Railway Cloud Platform</td>
+          <td><code>https://admin-web-production-7006.up.railway.app/login</code></td>
+        </tr>
+        <tr>
+          <td><strong>Language & Runtime</strong></td>
+          <td>TypeScript 5.x / Node.js 20+</td>
+          <td>Strict typing enabled, modern ES syntax</td>
+        </tr>
+        <tr>
+          <td><strong>Test Runner</strong></td>
+          <td>Playwright Test</td>
+          <td>Multi-project config (Chromium, Firefox, WebKit)</td>
+        </tr>
+        <tr>
+          <td><strong>Design Pattern</strong></td>
+          <td>Page Object Model (POM)</td>
+          <td><code>LoginPage.ts</code> encapsulating DOM selectors</td>
+        </tr>
+        <tr>
+          <td><strong>Reporting</strong></td>
+          <td>Playwright HTML Reporter</td>
+          <td>Interactive traces, screenshots on failure, video recording</td>
+        </tr>
+        <tr>
+          <td><strong>CI/CD Integration</strong></td>
+          <td>GitHub Actions Workflow</td>
+          <td>Headless parallel execution on Pull Requests</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>6.3 Test Data Management & Secrets Policy</h3>
+    <div class="callout">
+      <div class="callout-title">Zero Hardcoded Credentials Directive</div>
+      All credentials and secrets must be injected through environment variables. No plain-text passwords may exist in code repositories.
+    </div>
+    <ul>
+      <li><code>ERP_BASE_URL</code>: <code>https://admin-web-production-7006.up.railway.app</code></li>
+      <li><code>ERP_ADMIN_USER</code>: Synthetic test account (e.g., <code>admin@bakertrader.internal</code>)</li>
+      <li><code>ERP_ADMIN_PASSWORD</code>: Runtime secret injected via secure vault or CI/CD secret manager</li>
+      <li><strong>Negative Test Data:</strong> <code>invalid.user@example.invalid</code> / <code>IncorrectPass#2026</code></li>
+      <li><strong>Injection Probes:</strong> <code>' OR 1=1 --</code> and <code>&lt;script&gt;alert('test')&lt;/script&gt;</code></li>
+    </ul>
+
+    <div class="page-footer">
+      <span>Baker Trader ERP Quality Assurance</span>
+      <span>Confidential & Proprietary</span>
+      <span>Page 3 of 5</span>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= PAGE 4 ================= -->
+  <div class="doc-page">
+    <div class="page-header">
+      <div class="brand"><span class="brand-title">Baker Trader ERP — Quality Assurance</span></div>
+      <div class="doc-ref">DOC ID: TP-BTERP-LOGIN-001 | v1.0.0</div>
+    </div>
+
+    <h2>7. Entry and Exit Criteria</h2>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Entry Criteria (Gate In)</span>
+        <span class="meta-val">1. Login route returns HTTP 200.<br>2. Test accounts provisioned & verified.<br>3. Test Plan baseline approved.<br>4. CI runner network connectivity confirmed.</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Exit Criteria (Gate Out)</span>
+        <span class="meta-val">1. 100% In-Scope test cases executed.<br>2. ≥ 98% automated test pass rate.<br>3. Zero Sev 1 / Sev 2 open defects.<br>4. Test Execution Summary published.</span>
+      </div>
+    </div>
+
+    <h2>8. Roles, Responsibilities, Estimates, and Schedule</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Key Responsibilities</th>
+          <th>RACI Designation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Senior Test Engineer</strong></td>
+          <td>Authored Test Plan, POM design, Playwright test scripting, defect triage</td>
+          <td><strong>R</strong> (Responsible)</td>
+        </tr>
+        <tr>
+          <td><strong>QA Automation Lead</strong></td>
+          <td>Framework architecture review, CI/CD pipeline integration, sign-off</td>
+          <td><strong>A</strong> (Accountable)</td>
+        </tr>
+        <tr>
+          <td><strong>Fullstack Developer</strong></td>
+          <td>Authentication API support, defect resolution, test account provisioning</td>
+          <td><strong>C</strong> (Consulted)</td>
+        </tr>
+        <tr>
+          <td><strong>Product Owner</strong></td>
+          <td>Business rules sign-off, acceptance criteria sign-off, release authorization</td>
+          <td><strong>I</strong> (Informed)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>8.2 Effort Estimates (Total: 7 Person-Days)</h3>
+    <ul>
+      <li><strong>Sprint Day 1:</strong> Test Plan & RTM finalization, locator contract validation (1.0 Day)</li>
+      <li><strong>Sprint Day 2–3:</strong> Playwright framework setup, <code>LoginPage.ts</code> POM implementation (1.5 Days)</li>
+      <li><strong>Sprint Day 4–6:</strong> Test case automation (18 automated scenarios across REQ-001 to 007) (2.5 Days)</li>
+      <li><strong>Sprint Day 7:</strong> Cross-browser matrix execution, CI/CD pipeline integration (1.0 Day)</li>
+      <li><strong>Sprint Day 8:</strong> Defect verification, regression runs, final test report compilation (1.0 Day)</li>
+    </ul>
+
+    <h2>9. Defect Management and Reporting</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Severity Level</th>
+          <th>Definition</th>
+          <th>SLA</th>
+          <th>Example in Login Scope</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-p1">Sev 1 - Critical</span></td>
+          <td>Complete authentication outage; security breach; plain text credential leak.</td>
+          <td>&lt; 4 Hours</td>
+          <td>Valid credentials crash the app with HTTP 500; password exposed in URL.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-p2">Sev 2 - Major</span></td>
+          <td>Core login feature broken; no viable workaround available.</td>
+          <td>&lt; 24 Hours</td>
+          <td>Submit button fails to respond on WebKit; invalid credentials allow access.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-p3">Sev 3 - Moderate</span></td>
+          <td>Non-critical functional flaw or error handling inconsistency.</td>
+          <td>&lt; 3 Days</td>
+          <td>Error message wording is misleading; cursor fails to auto-focus on email.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-outofscope">Sev 4 - Minor</span></td>
+          <td>Cosmetic styling defect or minor layout misalignment.</td>
+          <td>Backlog</td>
+          <td>Minor padding inconsistency on staff portal footer note.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-footer">
+      <span>Baker Trader ERP Quality Assurance</span>
+      <span>Confidential & Proprietary</span>
+      <span>Page 4 of 5</span>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= PAGE 5 ================= -->
+  <div class="doc-page">
+    <div class="page-header">
+      <div class="brand"><span class="brand-title">Baker Trader ERP — Quality Assurance</span></div>
+      <div class="doc-ref">DOC ID: TP-BTERP-LOGIN-001 | v1.0.0</div>
+    </div>
+
+    <h2>10. Risks, Dependencies, Assumptions, and Open Questions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Risk ID</th>
+          <th>Risk Description</th>
+          <th>Impact</th>
+          <th>Mitigation Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>RSK-01</strong></td>
+          <td><strong>Rate Limiting (HTTP 429):</strong> Automated rapid attempts trigger rate limiting.</td>
+          <td>High</td>
+          <td>Throttle Playwright parallel workers; add test runner IP to bypass list.</td>
+        </tr>
+        <tr>
+          <td><strong>RSK-02</strong></td>
+          <td><strong>TOTP 2FA Challenges:</strong> Headless tests blocked if accounts enforce 2FA.</td>
+          <td>High</td>
+          <td>Provision dedicated automated test account without TOTP, or integrate dynamic OTP generator.</td>
+        </tr>
+        <tr>
+          <td><strong>RSK-03</strong></td>
+          <td><strong>Railway Cold Starts:</strong> Ephemeral server spin-up causing initial test timeouts.</td>
+          <td>Medium</td>
+          <td>Implement pre-test health-check ping to wake container prior to test suite execution.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>10.2 Facts vs. Assumptions vs. Open Questions</h3>
+    <ul>
+      <li><strong>Confirmed Fact:</strong> Application renders using React with client-side routing on Railway platform.</li>
+      <li><strong>Proposed Assumption:</strong> Dedicated <code>admin</code> test credentials will be provisioned by backend team.</li>
+      <li><strong>Open Question:</strong> Will secondary business personas (Driver, Warehouse Manager) authenticate through this portal or a mobile sub-client?</li>
+    </ul>
+
+    <h2>11. Suspension and Resumption Criteria</h2>
+    <p>
+      <strong>Suspension:</strong> Testing will halt immediately if the target endpoint returns 502/503 errors for >10 minutes, or a Sev 1 defect completely blocks authentication.<br>
+      <strong>Resumption:</strong> Execution will resume upon hotfix deployment, environment health verification, and test account restoration.
+    </p>
+
+    <h2>12. Test Deliverables and Formal Approvals</h2>
+    <p>
+      <strong>Deliverables:</strong> 1. Master Test Plan (<code>TP-BTERP-LOGIN-001</code>) &bull; 2. Requirements Traceability Matrix (RTM) &bull; 3. Playwright POM Test Repository &bull; 4. Interactive Test Execution Report.
+    </p>
+
+    <div class="signature-grid">
+      <div class="sig-box">
+        <div class="sig-role">Senior Test Engineer (Author / SDET Lead)</div>
+        <div style="font-size: 9.5px; color: var(--text-main); margin-top: 4px;">Status: Approved & Submitted (Draft Baseline)</div>
+        <div class="sig-line">
+          <span>Signature: [Verified Digital QA Sign-Off]</span>
+          <span>Date: 2026-10-15</span>
+        </div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-role">QA Automation Lead (Framework & Architecture)</div>
+        <div style="font-size: 9.5px; color: var(--text-main); margin-top: 4px;">Status: Pending Final Technical Review</div>
+        <div class="sig-line">
+          <span>Signature: __________________________</span>
+          <span>Date: ____________</span>
+        </div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-role">Engineering Lead (Fullstack / Auth Backend)</div>
+        <div style="font-size: 9.5px; color: var(--text-main); margin-top: 4px;">Status: Pending Test Account Provisioning</div>
+        <div class="sig-line">
+          <span>Signature: __________________________</span>
+          <span>Date: ____________</span>
+        </div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-role">Product Owner / Manager (Baker Trader ERP)</div>
+        <div style="font-size: 9.5px; color: var(--text-main); margin-top: 4px;">Status: Pending Acceptance Sign-Off</div>
+        <div class="sig-line">
+          <span>Signature: __________________________</span>
+          <span>Date: ____________</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>Baker Trader ERP Quality Assurance</span>
+      <span>Confidential & Proprietary</span>
+      <span>Page 5 of 5</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
